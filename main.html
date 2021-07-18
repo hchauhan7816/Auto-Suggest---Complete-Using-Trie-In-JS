@@ -1,16 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Complete</title>
-    <script src="DB.js"></script>
+<html>
+  <head>
+    <title>Searcher</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script src="main.js"></script>
-</head>
-<body>
-    Hello from html
-    <br>
-    <input type = "button" onclick = "testing()" value = "Start Testing">
-</body>
+    <script src="DB.js"></script>
+  </head>
+
+  <body>
+    <!--<h1>Side navigation</h1>-->
+
+    <div id="sidenav" class="sidenav">
+      <span class="close" onclick="closenav()">&times;</span>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Clients</a>
+      <a href="#">Contacts</a>
+    </div>
+
+    <div class="topnav">
+      <a
+        ><span onclick="opennav()" id="openn"><b>&#9776;</b></span></a
+      >
+      <a class="active" href="#home">Home</a>
+      <a href="#Auto Correct">Auto Correct</a>
+      <a href="#Auto Suggest">Auto Suggest</a>
+    </div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <div class="bar">
+      <input
+        class="searchbar"
+        oninput="printList()"
+        type="text"
+        title="Search"
+        placeholder="Enter Text"
+        id="inputString"
+      />
+      <button onclick="printList()">
+        <i class="fa fa-search" style="font-size: 20px"></i>
+      </button>
+
+      <!-- <input
+        class="searchbar"
+        oninput="printList()"
+        type="search"
+        title="Search"
+        id="inputString"
+        placeholder="Enter Text"
+      />
+
+      <button onclick="printList()">
+        <i class="fa fa-search" style="font-size: 20px"></i>
+      </button> -->
+    </div>
+
+    <div id="showSuggestions"></div>
+  </body>
 </html>
