@@ -53,9 +53,9 @@ class ConstructTrie {
 }
 
 class TrieOperations {
-  constructor() {
+  constructor(x) {
     this.words = [];
-    this.suggestionWanted = 15; // default number of suggestions 10
+    this.suggestionWanted = x; // default number of suggestions 10
   }
 
   canExtendThisWord(temp_node) {
@@ -63,17 +63,13 @@ class TrieOperations {
       let c = String.fromCharCode(97 + i);
 
       if (temp_node.child[c] !== undefined) {
-        console.log(c); // Temporary thing for debug remove when submit
         return true;
       }
     }
 
     for (let i = 0; i < 26; i++) {
       let c = String.fromCharCode(65 + i);
-      // console.log(c); // Temporary thing for debug remove when submit
-
       if (temp_node.child[c] !== undefined) {
-        //  console.log(c); // Temporary thing for debug remove when submit
         return true;
       }
     }
@@ -93,12 +89,6 @@ class TrieOperations {
         doneThisChar = false;
       let x = c.toLowerCase();
 
-      console.log("Start");
-      console.log(c + " " + i);
-      console.log(x);
-      console.log(temp_node.leaf);
-      console.log("End");
-
       if (temp_node.child[c]) {
         temp_node = temp_node.child[c];
         doneThisChar = true;
@@ -114,12 +104,6 @@ class TrieOperations {
       if (doneThisChar) {
         len++;
       }
-
-      console.log("Start");
-      console.log(c + " " + i);
-      console.log(x);
-      console.log(temp_node.leaf);
-      console.log("End");
     }
 
     let maxStringObtained = "";
@@ -139,11 +123,9 @@ class TrieOperations {
     );
 
     let x = { len, maxStringObtained, temp_node, foundWholeString };
-    console.log(x);
     return x;
   }
 
-  // number of suggestions user want can be fixed according to his/her choice
   DFS(inp_val, node) {
     if (this.words.length >= this.suggestionWanted) {
       return;
@@ -153,15 +135,11 @@ class TrieOperations {
       this.words.push(inp_val);
     }
 
-    console.log(inp_val + " " + " words: " + this.words);
-
     for (let c in node.child) {
-      console.log("reached :: " + c + " inp " + inp_val);
       if (node.child[c] !== undefined) {
         let new_string = inp_val;
         new_string += c;
 
-        console.log("new string : " + new_string);
         this.DFS(new_string, node.child[c]);
       }
     }
@@ -172,7 +150,6 @@ class TrieOperations {
     let q = [{ inp_val, node }];
 
     while (q.length) {
-      console.log("v is " + v.toString());
       if (v.length >= this.suggestionWanted) {
         this.words = v;
         return;
@@ -206,9 +183,6 @@ class TrieOperations {
   GetSuggestionsUsingDFS(inp_val, root) {
     this.words = [];
     let checkInTrie = this.findInTrie(inp_val, root);
-    console.log(checkInTrie);
-    console.log(checkInTrie.len);
-    console.log("Was");
 
     let len = checkInTrie.len,
       maxWordFound = checkInTrie.maxStringObtained,
@@ -216,28 +190,14 @@ class TrieOperations {
       foundWholeString = checkInTrie.foundWholeString;
     let n = inp_val.length;
 
-    console.log(
-      checkInTrie[0] + " " + maxWordFound + " " + " " + foundWholeString
-    );
-
     let ans = [];
 
     if (foundWholeString && !(this.canExtendThisWord(node) && len == n)) {
-      // Can add functionality here highlight or stop recommending this word as it is Already a valid string
-      // Like in google search it skips if the word is correct , maybe like that??
       ans.push(maxWordFound);
     }
 
-    console.log("123");
-    console.log(node.leaf);
-    console.log("ans :: " + ans);
-
     if (this.canExtendThisWord(node) && len == n) {
-      console.log("here " + maxWordFound + " ans :: " + ans);
       this.DFS(maxWordFound, node);
-      console.log("Now here");
-      console.log(this.words);
-
       for (let i = 0; i < this.words.length; i++) {
         ans.push(this.words[i]);
       }
@@ -245,29 +205,16 @@ class TrieOperations {
       return ans;
     } else {
       if (len == n && node.leaf) {
-        // todo
-        // this is only valid string without any further extension possible like Jatin
-        // No other word exists that Jatin....xyz
-        // this is only for those cases
-
         return ans;
       } else {
-        // todo
-        // this string does not exists
-        // maybe adding the string into our list feature?
-
         return ans;
       }
     }
   }
 
   GetSuggestionsUsingBFS(inp_val, root) {
-    console.log("BFS ONE");
     this.words = [];
     let checkInTrie = this.findInTrie(inp_val, root);
-    console.log(checkInTrie);
-    console.log(checkInTrie.len);
-    console.log("Was");
 
     let len = checkInTrie.len,
       maxWordFound = checkInTrie.maxStringObtained,
@@ -276,26 +223,10 @@ class TrieOperations {
 
     let n = inp_val.length;
 
-    console.log(
-      checkInTrie[0] + " " + maxWordFound + " " + " " + foundWholeString
-    );
-
     let ans = [];
 
-    // if (node.leaf) {
-    // Can add functionality here highlight or stop recommending this word as it is Already a valid string
-    // Like in google search it skips if the word is correct , maybe like that??
-    // ans.push(maxWordFound);
-    // }
-
-    console.log("123");
-    console.log(node.leaf);
-    console.log("ans :: " + ans);
-
     if (this.canExtendThisWord(node) && len == n) {
-      console.log("here " + maxWordFound + " ans :: " + ans);
       this.BFS(maxWordFound, node);
-      console.log(this.words);
 
       for (let i = 0; i < this.words.length; i++) {
         ans.push(this.words[i]);
@@ -304,21 +235,52 @@ class TrieOperations {
       return ans;
     } else {
       if (len == n && node.leaf) {
-        // todo
-        // this is only valid string without any further extension possible like Jatin
-        // No other word exists that Jatin....xyz
-        // this is only for those cases
-
         return ans;
       } else {
-        // todo
-        // this string does not exists
-        // maybe adding the string into our list feature?
-
         return ans;
       }
     }
   }
+}
+
+function findDistance(s1, s2) {
+  let n1 = s1.length;
+  let n2 = s2.length;
+
+  var dp = new Array(n1 + 1);
+
+  for (let i = 0; i < n1 + 1; i++) {
+    dp[i] = new Array(n2 + 1);
+  }
+
+  for (let i = 0; i < n1 + 1; i++) {
+    let j = 0;
+    while (j < n2 + 1) {
+      if (i == 0) {
+        dp[i][j] = j;
+      } else if (j == 0) {
+        dp[i][j] = i;
+      } else if (s1[i - 1] == s2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else if (
+        i > 1 &&
+        j > 1 &&
+        s1[i - 1] == s2[j - 2] &&
+        s1[i - 2] == s2[j - 1]
+      ) {
+        let x = Math.min(dp[i][j - 1], dp[i - 1][j]);
+        let y = Math.min(dp[i - 2][j - 2], dp[i - 1][j - 1]);
+        dp[i][j] = 1 + Math.min(x, y);
+      } else {
+        let x = Math.min(dp[i][j - 1], dp[i - 1][j]);
+        dp[i][j] = 1 + Math.min(x, dp[i - 1][j - 1]);
+      }
+
+      j++;
+    }
+  }
+
+  return dp[n1][n2];
 }
 
 function solve() {
@@ -330,23 +292,89 @@ function solve() {
   }
 
   const autocomplete = new ConstructTrie(DB);
-  // const result = JSON.stringify(autocomplete.root);
 
-  console.log("HERE");
-
-  const x = new TrieOperations();
+  const x = new TrieOperations(15);
   const ans = x.GetSuggestionsUsingDFS(s, autocomplete.root);
-  // const ans = x.GetSuggestionsUsingBFS(s, autocomplete.root);
 
   console.log(ans.toString());
 
-  // console.log("here BFS STARTS");
-  // const hl = x.BFS(s, autocomplete.root);
-
-  // document.write(ans.toString());
-  // document.write(hl.toString());
-
   return ans;
+}
+
+function findSimilarWords() {
+  let inp_val = document.getElementById("inputString").value;
+  let n = inp_val.length;
+
+  let ans = [];
+  if (n == 0) {
+    return ans;
+  }
+
+  const autocomplete = new ConstructTrie(DB);
+
+  const x = new TrieOperations(1000000);
+  const arr = x.GetSuggestionsUsingDFS("", autocomplete.root);
+
+  let n1 = arr.length;
+  for (let i = 0; i < n1; i++) {
+    let v = findDistance(arr[i], inp_val);
+    ans.push([v, arr[i]]);
+  }
+
+  ans.sort(function (a, b) {
+    return parseFloat(a[0]) - parseFloat(b[0]);
+  });
+
+  let finalAns = [];
+  for (let i = 0; i < Math.min(15, ans.length); i++) {
+    finalAns.push(ans[i][1]);
+  }
+
+  return finalAns;
+}
+
+function printList() {
+  const arr = solve();
+
+  var ansList = "<ul>";
+
+  for (let i = 0; i < arr.length; i++) {
+    let x = arr[i];
+    let y = arr[i][0];
+
+    ansList += "<li>" + y.toUpperCase() + x.substring(1) + "</li>";
+  }
+
+  ansList += "</ul>";
+
+  if (arr.length == 0) {
+    ansList = "";
+  }
+
+  document.getElementById("showSuggestions").innerHTML = "";
+  document.getElementById("showSuggestions").innerHTML += ansList;
+}
+
+function printSimilarWords() {
+  const arr = findSimilarWords();
+
+  var ansList = "<ul>";
+
+  for (let i = 0; i < arr.length; i++) {
+    let x = arr[i];
+    let y = arr[i][0];
+
+    ansList += "<li>" + y.toUpperCase() + x.substring(1) + "</li>";
+  }
+
+  ansList += "</ul>";
+
+  if (arr.length == 0) {
+    ansList = "";
+  }
+
+  document.getElementById("showSimilarSuggestions").innerHTML = "";
+  document.getElementById("showSimilarSuggestions").innerHTML += ansList;
 }
 
 // Front End Related Stuff
@@ -356,18 +384,4 @@ function opennav() {
 
 function closenav() {
   document.getElementById("sidenav").style.width = "0";
-}
-
-function printList() {
-  const arr = solve();
-
-  var ansList = "<ul>";
-
-  for (let i = 0; i < arr.length; i++) {
-    ansList += "<li>" + arr[i] + "</li>";
-  }
-
-  ansList += "</ul>";
-  document.getElementById("showSuggestions").innerHTML = "";
-  document.getElementById("showSuggestions").innerHTML += ansList;
 }

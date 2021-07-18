@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Auto Suggest</title>
+    <title>Auto Correct</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="main.css" />
     <link
@@ -34,8 +34,8 @@
         ><span onclick="opennav()" id="openn"><b>&#9776;</b></span></a
       >
 
-      <a class="active" href="#Auto Suggest">Auto Suggest</a>
-      <a href="autoCorrect.html">Auto Correct</a>
+      <a href="main.html">Auto Suggest</a>
+      <a class="active" href="auto correct.html">Auto Correct</a>
     </div>
 
     <div class="contain">
@@ -45,18 +45,18 @@
           <div class="bar">
             <input
               class="searchbar"
-              oninput="printList()"
+              oninput="printSimilarWords()"
               type="text"
               title="Search"
               placeholder="Enter Text"
               id="inputString"
             />
-            <button onclick="printList()">
+            <button onclick="printSimilarWords()">
               <i class="fa fa-search" style="font-size: 20px"></i>
             </button>
           </div>
           <div class="list">
-            <div class="ansList" id="showSuggestions"></div>
+            <div class="ansList" id="showSimilarSuggestions"></div>
           </div>
         </div>
       </div>
